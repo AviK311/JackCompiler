@@ -1,0 +1,20 @@
+<configuration>
+    <project>
+        <executable>compile.exe</executable>
+        <arguments></arguments>
+        <output></output>
+        <options></options>
+        <namespace>compiler</namespace>
+        <template>console</template>
+        <debuginfo>0</debuginfo>
+    </project>
+    <files>
+        <module>
+            <include>compiler.l</include>
+            <include>tokenizer.l</include>
+            <include>parser.l</include>
+            <include>Symbol.l</include>
+            <include>compileEngine.l</include>
+        </module>
+    </files>
+</configuration>
