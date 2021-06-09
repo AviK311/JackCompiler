@@ -22,11 +22,13 @@ compareStrings(string val1, string val2)
     };
     ^true;
 }
-Token{
+
+Token
+{
     string type;
     string val;
-    Type=type;
-    Val=val;
+    Type = type;
+    Val = val;
     constructor(string _type, string _val)
     {
         type:= _type;
@@ -75,86 +77,102 @@ Tokenizer
     }    
 }
 
-createTokens(string line, var tokenizer){
+createTokens(string line, var tokenizer)
+{
     string digits := "0123456789";
-    string symbols:="{}()[].,;+-*/&|<>=~";
-    string letters:= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    letters:= letters+letters.lowerCase()+"_";
+    string symbols := "{}()[].,;+-*/&|<>=~";
+    string letters := "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    letters := letters+letters.lowerCase()+"_";
     
-    string thisLine:= line.trim();
+    string thisLine := line.trim();
     
-    while(thisLine!=""&& thisLine!="\n"){
+    while(thisLine!=""&& thisLine!="\n")
+    {
         //string
-        if (thisLine[0]==""""){
+        if (thisLine[0]=="""")
+        {
             int i:= getStringIndex(thisLine.Substring(1));
             string token:= thisLine.Substring(1, i);
             tokenizer.addTok(TokenMaker.stringToken(token));
             thisLine:= thisLine.Substring(i+2).trimLeft();
-            }
+        }
         //int
-        else if(digits.indexOf(0,thisLine[0])!=-1 && digits.indexOf(0,thisLine[0])!=digits.Length){
+        else if(digits.indexOf(0,thisLine[0])!=-1 && digits.indexOf(0,thisLine[0])!=digits.Length)
+        {
             int i:= getNumIndex(thisLine.Substring(0));
             string token:= thisLine.Substring(0, i);
             tokenizer.addTok(TokenMaker.intToken(token));
             thisLine:= thisLine.Substring(i).trimLeft();
-            }
+        }
         //symbol
-        else if(symbols.indexOf(0,thisLine[0])!=-1 && symbols.indexOf(0,thisLine[0])!=symbols.Length){
+        else if(symbols.indexOf(0,thisLine[0])!=-1 && symbols.indexOf(0,thisLine[0])!=symbols.Length)
+        {
             tokenizer.addTok(TokenMaker.getToken(thisLine[0].toString()));
             thisLine:= thisLine.Substring(1).trimLeft();
-            }
+        }
         //identifier+keyword
-        else if(letters.indexOf(0,thisLine[0])!=-1 && letters.indexOf(0,thisLine[0])!=letters.Length){
+        else if(letters.indexOf(0,thisLine[0])!=-1 && letters.indexOf(0,thisLine[0])!=letters.Length)
+        {
             int i:= getIdentifierIndex(thisLine.Substring(1));
             string token:= thisLine.Substring(0, i+1);
             tokenizer.addTok(TokenMaker.getToken(token));
             thisLine:= thisLine.Substring(i+1).trimLeft();
-            }
-        else{
+        }
+        else{//shouldn't happen
             thisLine:= thisLine.Substring(1).trimLeft();
-            }
+        }
     
     }
-    
 }
-getStringIndex(string line){
+
+getStringIndex(string line)
+{
     int i:= 0;
-    while(i<line.Length && line[i]!=""""){
+    while(i<line.Length && line[i]!="""")
+    {
         i+=1;
-        };
+    };
     ^i;
 }
 
-getNumIndex(string line){
+getNumIndex(string line)
+{
     string digits := "0123456789";
     int i:= 0;
-    while(i<line.Length && digits.indexOf(0,line[i])!=-1){
+    while(i<line.Length && digits.indexOf(0,line[i])!=-1)
+    {
         i+=1;
-        };
+    };
     ^i;
 }
 
-getIdentifierIndex(string line){
-    string letters:= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+getIdentifierIndex(string line)
+{
+    string letters := "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     letters:= letters+letters.lowerCase()+"_0123456789";
-    int i:= 0;
-    while(i<line.Length && letters.indexOf(0,line[i])!=-1){
+    int i := 0;
+    while(i<line.Length && letters.indexOf(0,line[i])!=-1)
+    {
         i+=1;
-        };
+    };
     ^i;
 }
 
 TokenMaker{
-    static stringToken(string item){
+    static stringToken(string item)
+    {
         ^new Token("stringConstant",item);
-        }
-    static intToken(string num){
+    }
+    static intToken(string num)
+    {
         ^new Token("integerConstant",num);
-        }
-    static idToken(string id){
+    }
+    static idToken(string id)
+    {
         ^new Token("identifier",id);
-        }
-    static getToken(string item){
+    }
+    static getToken(string item)
+    {
         string tag;
         string details:=item;
         item=>
@@ -199,7 +217,7 @@ TokenMaker{
         "="{tag:="symbol"}
         "~"{tag:="symbol"}
         :{^TokenMaker.idToken(item)};
- 
+
         ^new Token(tag, details);        
-        }
+    }
 }

@@ -313,35 +313,28 @@ Parser
         ^i+1;
     }
     
-    static genClass(var lineArray, var writer){
-            
-            writer.writeLine("<class>");
-            writer.writeLine("<keyword> class </keyword>");
-            
-            writer.writeLine(lineArray[1].Tag);
-            writer.writeLine("<symbol> { </symbol>");
-            int i:= 3;
-            
-            while(lineArray[i].match("keyword","field") ||
-                 lineArray[i].match("keyword","static")){
-                     
-                i:=Parser.genClassVarDec(lineArray, i, writer);
-               
-            };
-            
-            while(lineArray[i].match("keyword","constructor") ||
-                    lineArray[i].match("keyword","function")||
-                    lineArray[i].match("keyword","method")){
-                i:=Parser.genSubroutineDec(lineArray, i, writer);
-                
-            };
-            
-            
-            writer.writeLine("<symbol> } </symbol>");
-            writer.writeLine("</class>");
-            
-            
-        }
+    static genClass(var lineArray, var writer)
+    {
+        writer.writeLine("<class>");
+        writer.writeLine("<keyword> class </keyword>");
+        writer.writeLine(lineArray[1].Tag);
+        writer.writeLine("<symbol> { </symbol>");
+        int i := 3;
+        while(lineArray[i].match("keyword","field") ||
+                lineArray[i].match("keyword","static"))
+        {
+            i := Parser.genClassVarDec(lineArray, i, writer);
+        };
+        
+        while(lineArray[i].match("keyword","constructor") ||
+                lineArray[i].match("keyword","function")||
+                lineArray[i].match("keyword","method"))
+        {
+            i := Parser.genSubroutineDec(lineArray, i, writer);
+        };
+        writer.writeLine("<symbol> } </symbol>");
+        writer.writeLine("</class>");
+    }
     
     
     
@@ -349,8 +342,8 @@ Parser
     {
         string fileName := tokenizer.getOutputFile("xml");
         var lineArray := tokenizer.Tokens;
-        
-        using(auto writer := File.assign(fileName).textwriter()){
+        using(auto writer := File.assign(fileName).textwriter())
+        {
             Parser.genClass(lineArray, writer);
         }
     }

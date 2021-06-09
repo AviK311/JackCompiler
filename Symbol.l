@@ -18,11 +18,14 @@ Symbol{
     {
         num := index;
         name := n;
-        type:= t;
-        if (compareStrings(k,"field")){
-            kind:= "this";
-        }else{
-            kind:= k;
+        type := t;
+        if (compareStrings(k,"field"))
+        {
+            kind := "this";
+        }
+        else
+        {
+            kind := k;
         }
     }
     Num=num;
@@ -31,11 +34,10 @@ Symbol{
     Kind=kind;
     string push = "push "+ kind+" "+num.toString();
     string pop = "pop "+ kind+" "+num.toString();
-    
-    
 }
 
-SymbolTable{
+SymbolTable
+{
     Map<string, Symbol> map;
     Map<string, int> counters;
     constructor()
