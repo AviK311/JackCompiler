@@ -91,7 +91,6 @@ CompileEngine
         }
         "stringConstant"
         {
-            console.printLine("reached here");
             writer.writeLine("push constant "+val.Length.toString());
             writer.writeLine("call String.new 1");
                    
